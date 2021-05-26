@@ -130,7 +130,7 @@
                 </a>
             </li><li class="dlf-subnav__list-item">
                 <a class="dlf-subnav__list-item__link" href="#referenced-by" data-module-sub-nav="tab">
-                Referenced by (0)
+                0 References
                 </a>
             </li>
         </ul>
@@ -144,9 +144,9 @@
             </dt>
             <dd class="govuk-summary-list__value">                <a class="govuk-link" href="https://www.wiltshire.gov.uk/article/2435/Community-Infrastructure-Levy">https://www.wiltshire.gov.uk/article/2435/Community-Infrastructure-Levy</a>            </dd>
         </div>        <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">start-date
+            <dt class="govuk-summary-list__key">infrastructure-funding-statement
             </dt>
-            <dd class="govuk-summary-list__value">                2021-01-04            </dd>
+            <dd class="govuk-summary-list__value">                <span class="dl-select-all">e08794ac2fb5e58a81ad9bcdbd91231d6ecc0ea004536882fa957fb42e6649d8</span>            </dd>
         </div>        <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">organisation
             </dt>
@@ -154,9 +154,9 @@
 <span title="Organisation identifier: local-authority-eng:WIL" class="govuk-!-font-size-16 secondary-text data-reference">(<span class="govuk-visually-hidden">Organisation identifier is </span>local-authority-eng:WIL)</span>
             </dd>
         </div>        <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">infrastructure-funding-statement
+            <dt class="govuk-summary-list__key">start-date
             </dt>
-            <dd class="govuk-summary-list__value">                <span class="dl-select-all">e08794ac2fb5e58a81ad9bcdbd91231d6ecc0ea004536882fa957fb42e6649d8</span>            </dd>
+            <dd class="govuk-summary-list__value">                2021-01-04            </dd>
         </div>        <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">entry-date
             </dt>
@@ -185,20 +185,20 @@
             <th>entry-date</th>
             <th>resource</th>
             <th>line</th>
-            <th>organisation</th>
             <th>start-date</th>
-            <th>documentation-url</th>
+            <th>organisation</th>
             <th>infrastructure-funding-statement</th>
+            <th>documentation-url</th>
         </tr>
     </thead>
     <tbody>        <tr>
             <td>2021-01-04</td>
             <td><a href="https://github.com/digital-land/infrastructure-funding-statement-collection/tree/main/transformed/infrastructure-funding-statement/77eb8ea9a284f8ed0f8969d29b98ad803bb71d7f49342d2d5f176d45cd3595d3.csv#L27">77eb8ea9a284...</a></td>
             <td>26</td>
-                <td>local-authority-eng:WIL</td> 
                 <td>2021-01-04</td> 
-                <td>https://www.wiltshire.gov.uk/article/2435/Community-Infrastructure-Levy</td> 
+                <td>local-authority-eng:WIL</td> 
                 <td>e08794ac2fb5e58a81ad9bcdbd91231d6ecc0ea004536882fa957fb42e6649d8</td> 
+                <td>https://www.wiltshire.gov.uk/article/2435/Community-Infrastructure-Levy</td> 
         </tr>    </tbody>
 </table>
 
@@ -304,8 +304,24 @@
 	</script>
 
 <script>
+    const datasetName = "infrastructure-funding-statement"
     const $mapElement = document.querySelector('[data-module="boundary-map"]')
-    const mapComponent = new DLMaps.Map($mapElement).init({})
+    const $nationalMapLink = document.querySelector('.dl-link-national-map')
+    const mapComponent = new DLMaps.Map($mapElement).init({
+        initGeoJsonLoadCallback: function (urls, featureGroup) {
+            console.log("initial load completed")
+            // do we need to check there isn't more than one shape?
+            const center = featureGroup.getBounds().getCenter()
+            const zoom = mapComponent.map.getZoom()
+            let url = `http://digital-land.github.io/leaflet-spike/?layer=${datasetName}#${center.lat},${center.lng},${zoom}z`
+            console.log(url)
+            if ($nationalMapLink) {
+                // only show this for the datasets we've added to the national map
+                $nationalMapLink.href = url
+                $nationalMapLink.classList.remove("js-hidden")
+            }
+        }
+    })
 </script>
 <script>
     // Initialise back to top

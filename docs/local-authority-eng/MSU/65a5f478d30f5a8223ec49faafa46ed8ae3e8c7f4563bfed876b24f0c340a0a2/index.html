@@ -130,7 +130,7 @@
                 </a>
             </li><li class="dlf-subnav__list-item">
                 <a class="dlf-subnav__list-item__link" href="#referenced-by" data-module-sub-nav="tab">
-                Referenced by (0)
+                0 References
                 </a>
             </li>
         </ul>
@@ -140,15 +140,15 @@
 <div class="govuk-grid-row">    <div class="govuk-grid-column-two-thirds"><article class="data-record govuk-!-margin-bottom-6">
     <h4 class="govuk-heading-s data-record__identifier">#/infrastructure-funding-statement/local-authority-eng/MSU/65a5f478d30f5a8223ec49faafa46ed8ae3e8c7f4563bfed876b24f0c340a0a2</h4>
     <dl class="govuk-summary-list data-record__properties">            <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">start-date
+            </dt>
+            <dd class="govuk-summary-list__value">                2020-12-18            </dd>
+        </div>        <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">organisation
             </dt>
             <dd class="govuk-summary-list__value"><a href="https://digital-land.github.io/organisation/local-authority-eng/MSU" class="govuk-link">Mid Suffolk District Council</a>
 <span title="Organisation identifier: local-authority-eng:MSU" class="govuk-!-font-size-16 secondary-text data-reference">(<span class="govuk-visually-hidden">Organisation identifier is </span>local-authority-eng:MSU)</span>
             </dd>
-        </div>        <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">start-date
-            </dt>
-            <dd class="govuk-summary-list__value">                2020-12-18            </dd>
         </div>        <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">infrastructure-funding-statement
             </dt>
@@ -182,8 +182,8 @@
             <th>resource</th>
             <th>line</th>
             <th>organisation</th>
-            <th>start-date</th>
             <th>infrastructure-funding-statement</th>
+            <th>start-date</th>
         </tr>
     </thead>
     <tbody>        <tr>
@@ -191,8 +191,8 @@
             <td><a href="https://github.com/digital-land/infrastructure-funding-statement-collection/tree/main/transformed/infrastructure-funding-statement/77eb8ea9a284f8ed0f8969d29b98ad803bb71d7f49342d2d5f176d45cd3595d3.csv#L6">77eb8ea9a284...</a></td>
             <td>5</td>
                 <td>local-authority-eng:MSU</td> 
-                <td>2020-12-18</td> 
                 <td>65a5f478d30f5a8223ec49faafa46ed8ae3e8c7f4563bfed876b24f0c340a0a2</td> 
+                <td>2020-12-18</td> 
         </tr>    </tbody>
 </table>
 
@@ -298,8 +298,24 @@
 	</script>
 
 <script>
+    const datasetName = "infrastructure-funding-statement"
     const $mapElement = document.querySelector('[data-module="boundary-map"]')
-    const mapComponent = new DLMaps.Map($mapElement).init({})
+    const $nationalMapLink = document.querySelector('.dl-link-national-map')
+    const mapComponent = new DLMaps.Map($mapElement).init({
+        initGeoJsonLoadCallback: function (urls, featureGroup) {
+            console.log("initial load completed")
+            // do we need to check there isn't more than one shape?
+            const center = featureGroup.getBounds().getCenter()
+            const zoom = mapComponent.map.getZoom()
+            let url = `http://digital-land.github.io/leaflet-spike/?layer=${datasetName}#${center.lat},${center.lng},${zoom}z`
+            console.log(url)
+            if ($nationalMapLink) {
+                // only show this for the datasets we've added to the national map
+                $nationalMapLink.href = url
+                $nationalMapLink.classList.remove("js-hidden")
+            }
+        }
+    })
 </script>
 <script>
     // Initialise back to top
