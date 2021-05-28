@@ -185,9 +185,9 @@
             <th>entry-date</th>
             <th>resource</th>
             <th>line</th>
-            <th>documentation-url</th>
-            <th>organisation</th>
             <th>start-date</th>
+            <th>organisation</th>
+            <th>documentation-url</th>
             <th>infrastructure-funding-statement</th>
         </tr>
     </thead>
@@ -195,9 +195,9 @@
             <td>2020-12-22</td>
             <td><a href="https://github.com/digital-land/infrastructure-funding-statement-collection/tree/main/transformed/infrastructure-funding-statement/77eb8ea9a284f8ed0f8969d29b98ad803bb71d7f49342d2d5f176d45cd3595d3.csv#L18">77eb8ea9a284...</a></td>
             <td>17</td>
-                <td>http://www.eaststaffsbc.gov.uk/planning/planning-policy/infrastructure-funding-statement</td> 
-                <td>local-authority-eng:EST</td> 
                 <td>2020-12-22</td> 
+                <td>local-authority-eng:EST</td> 
+                <td>http://www.eaststaffsbc.gov.uk/planning/planning-policy/infrastructure-funding-statement</td> 
                 <td>870dc46da246b0bfa724536b7ad0a6a21d2bff486b284d6dba20c5520c293a32</td> 
         </tr>    </tbody>
 </table>
@@ -313,7 +313,7 @@
             // do we need to check there isn't more than one shape?
             const center = featureGroup.getBounds().getCenter()
             const zoom = mapComponent.map.getZoom()
-            let url = `http://digital-land.github.io/leaflet-spike/?layer=${datasetName}#${center.lat},${center.lng},${zoom}z`
+            let url = `http://digital-land.github.io/map?layer=${datasetName}#${center.lat},${center.lng},${zoom}z`
             console.log(url)
             if ($nationalMapLink) {
                 // only show this for the datasets we've added to the national map
