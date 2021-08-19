@@ -138,25 +138,25 @@
 <div class="govuk-grid-row">    <div class="govuk-grid-column-two-thirds"><article class="data-record govuk-!-margin-bottom-6">
     <h4 class="govuk-heading-s data-record__identifier">#/infrastructure-funding-statement/local-authority-eng/TEN/3109a5cf3868b36b4979a87ed6f760ed1802983897f383e831a2ad4e20655191</h4>
     <dl class="govuk-summary-list data-record__properties">            <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">start-date
-            </dt>
-            <dd class="govuk-summary-list__value">                2020-12-22            </dd>
-        </div>        <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">organisation
+            <dt class="govuk-summary-list__key">Organisation
             </dt>
             <dd class="govuk-summary-list__value"><a href="https://digital-land.github.io/organisation/local-authority-eng/TEN" class="govuk-link">Tendring District Council</a>
 <span title="Organisation identifier: local-authority-eng:TEN" class="govuk-!-font-size-16 secondary-text data-reference">(<span class="govuk-visually-hidden">Organisation identifier is </span>local-authority-eng:TEN)</span>
             </dd>
         </div>        <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">infrastructure-funding-statement
-            </dt>
-            <dd class="govuk-summary-list__value">                <span class="dl-select-all">3109a5cf3868b36b4979a87ed6f760ed1802983897f383e831a2ad4e20655191</span>            </dd>
-        </div>        <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">documentation-url
+            <dt class="govuk-summary-list__key">Documentation URL
             </dt>
             <dd class="govuk-summary-list__value">                <a class="govuk-link" href="https://www.tendringdc.gov.uk/planning/planning-applications/what-are-section-106-legal-agreements">https://www.tendringdc.gov.uk/planning/planning-applications/what-are-section-106-legal-agreements</a>            </dd>
         </div>        <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">entry-date
+            <dt class="govuk-summary-list__key">Infrastructure Funding Statement
+            </dt>
+            <dd class="govuk-summary-list__value">                <span class="dl-select-all">3109a5cf3868b36b4979a87ed6f760ed1802983897f383e831a2ad4e20655191</span>            </dd>
+        </div>        <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Start date
+            </dt>
+            <dd class="govuk-summary-list__value">                2020-12-22            </dd>
+        </div>        <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Entry date
             </dt>
             <dd class="govuk-summary-list__value">                2020-12-22            </dd>
         </div>    
@@ -181,20 +181,20 @@
             <th>entry-date</th>
             <th>resource</th>
             <th>line</th>
-            <th>documentation-url</th>
             <th>infrastructure-funding-statement</th>
             <th>start-date</th>
             <th>organisation</th>
+            <th>documentation-url</th>
         </tr>
     </thead>
     <tbody>        <tr>
             <td>2020-12-22</td>
             <td><a href="https://github.com/digital-land/infrastructure-funding-statement-collection/tree/main/transformed/infrastructure-funding-statement/77eb8ea9a284f8ed0f8969d29b98ad803bb71d7f49342d2d5f176d45cd3595d3.csv#L16">77eb8ea9a284...</a></td>
             <td>15</td>
-                <td>https://www.tendringdc.gov.uk/planning/planning-applications/what-are-section-106-legal-agreements</td> 
                 <td>3109a5cf3868b36b4979a87ed6f760ed1802983897f383e831a2ad4e20655191</td> 
                 <td>2020-12-22</td> 
                 <td>local-authority-eng:TEN</td> 
+                <td>https://www.tendringdc.gov.uk/planning/planning-applications/what-are-section-106-legal-agreements</td> 
         </tr>    </tbody>
 </table>
 
@@ -303,21 +303,24 @@
     const datasetName = "infrastructure-funding-statement"
     const $mapElement = document.querySelector('[data-module="boundary-map"]')
     const $nationalMapLink = document.querySelector('.dl-link-national-map')
-    const mapComponent = new DLMaps.Map($mapElement).init({
-        initZoomCallback: function (featureGroup) {
-            console.log("initial load completed")
-            // do we need to check there isn't more than one shape?
-            const center = featureGroup.getBounds().getCenter()
-            const zoom = mapComponent.map.getZoom()
-            let url = `http://digital-land.github.io/map?layer=${datasetName}#${center.lat},${center.lng},${zoom}z`
-            console.log(url)
-            if ($nationalMapLink) {
-                // only show this for the datasets we've added to the national map
-                $nationalMapLink.href = url
-                $nationalMapLink.classList.remove("js-hidden")
-            }
-        }
-    })
+    const mapParams = {
+    initZoomCallback: function (featureGroup, map) {
+          console.log("initial load completed")
+          // do we need to check there isn't more than one shape?
+          const center = featureGroup.getBounds().getCenter()
+          const zoom = map.getZoom()
+          let url = `http://digital-land.github.io/map?layer=${datasetName}#${center.lat},${center.lng},${zoom}z`
+          console.log(url)
+          if ($nationalMapLink) {
+              // only show this for the datasets we've added to the national map
+              $nationalMapLink.href = url
+              $nationalMapLink.classList.remove("js-hidden")
+          }
+      }
+    }
+
+
+    const mapComponent = new DLMaps.Map($mapElement).init(mapParams)
 </script>
 <script>
     // Initialise back to top
